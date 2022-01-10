@@ -12,9 +12,14 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   }
 });
 
-task("deploy-testnets", "Deploys contract on the given test network.").setAction(async (taskArguments, hre, runSuper) => {
-  const deployLimeTokenContract = require("./scripts/deploy");
+task("deploy-LimeToken-testnet", "Deploys contract on the given test network.").setAction(async (taskArguments, hre, runSuper) => {
+  const deployLimeTokenContract = require("./scripts/deployLimeToken");
   await deployLimeTokenContract(taskArguments);
+});
+
+task("deploy-ETHWrapper-testnet", "Deploys contract on the given test network.").setAction(async (taskArguments, hre, runSuper) => {
+  const deployETHWrapperContract = require("./scripts/deployETHWrapper");
+  await deployETHWrapperContract(taskArguments);
 });
 
 // You need to export an object to set up your config

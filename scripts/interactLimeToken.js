@@ -1,12 +1,11 @@
 require('dotenv').config();
 const { compile } = require('@ethereum-waffle/compiler');
 const hre = require("hardhat");
-const ethers = hre.ethers;
+
 const LimeToken = require('../artifacts/contracts/LimeToken.sol/LimeToken.json');
 
 const run = async function() {
     // SET UP
-    const [owner] = await ethers.getSigners();
     const provider = new hre.ethers.providers.JsonRpcProvider(process.env.ROPSTEN_URL);
     const latestBlock = await provider.getBlock("latest");
     console.log("Latest block hash:", latestBlock.hash);
@@ -15,13 +14,10 @@ const run = async function() {
     const balance = await wallet.getBalance();
     console.log(hre.ethers.utils.formatEther(balance, 18));
 
-    const LimeTokenContract = new hre.ethers.Contract(process.env.CONTRACT_ADDRESS, LimeToken.abi, wallet);
+    const LimeTokenContract = new hre.ethers.Contract(process.env.LIME_TOKEN_CONTRACT_ADDRESS, LimeToken.abi, wallet);
 
     const recepientAddress = "0x465b2b6CC578268BA33f24A7e151D144b0E44D29";
     const ownerAddress = wallet.address;
-
-    console.log(wallet.address)
-    console.log(owner.address)
 
     // // CHECK OWNER BALANCE
     // let tokenBalance = await LimeTokenContract.balanceOf(ownerAddress);

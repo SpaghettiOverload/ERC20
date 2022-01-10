@@ -4,6 +4,7 @@ pragma solidity >=0.7.6;
 pragma abicoder v2;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/presets/ERC20PresetMinterPauser.sol";
 
 contract LimeToken is ERC20 {
     
