@@ -1,11 +1,12 @@
 require('dotenv').config();
 const { compile } = require('@ethereum-waffle/compiler');
 const hre = require("hardhat");
+const ethers = hre.ethers;
 const LimeToken = require('../artifacts/contracts/LimeToken.sol/LimeToken.json');
 
 const run = async function() {
     // SET UP
-    const [owner] = await hre.ethers.getSigners();
+    const [owner] = await ethers.getSigners();
     const provider = new hre.ethers.providers.JsonRpcProvider(process.env.ROPSTEN_URL);
     const latestBlock = await provider.getBlock("latest");
     console.log("Latest block hash:", latestBlock.hash);
@@ -16,46 +17,49 @@ const run = async function() {
 
     const LimeTokenContract = new hre.ethers.Contract(process.env.CONTRACT_ADDRESS, LimeToken.abi, wallet);
 
-    // MINT
-    // const amount = 2000000000000000000n;
-    // console.log(`Minting ${hre.ethers.utils.formatEther(amount, 18)} MLT to ${owner.address}`);
-    // const transactionMintTokenToDeployer = await LimeTokenContract.mint(owner.address, amount);
-    // const transactionReceipt = await transactionMintTokenToDeployer.wait();
-    // if (transactionReceipt.status !=1) {
-    //     console.log("Transaction was not successfull");
-    // }
+    const recepientAddress = "0x465b2b6CC578268BA33f24A7e151D144b0E44D29";
+    const ownerAddress = wallet.address;
 
-    // CHECK BALANCE
-    const addressToCheck = owner.address;
-    const tokenBalance = await LimeTokenContract.balanceOf(addressToCheck);
-    console.log(`Balance of: ${addressToCheck} is ${hre.ethers.utils.formatEther(tokenBalance, 18)} MLT`);
+    console.log(wallet.address)
+    console.log(owner.address)
 
-    // TRANSFER
-    // const recepientAddress = "0x465b2b6CC578268BA33f24A7e151D144b0E44D29";
-    // const amount = 1430000000000000000n;
+    // // CHECK OWNER BALANCE
+    // let tokenBalance = await LimeTokenContract.balanceOf(ownerAddress);
+    // console.log(`Balance of: ${ownerAddress} is ${hre.ethers.utils.formatEther(tokenBalance, 18)} MLT`);
 
-    // const recepientBalance = await LimeTokenContract.balanceOf(recepientAddress);
-    // console.log(`Balance of ${recepientAddress} is currently ${hre.ethers.utils.formatEther(recepientBalance, 18)} MLT`)
+    // // CHECK RECEPIENT BALANCE
+    // tokenBalance = await LimeTokenContract.balanceOf(recepientAddress);
+    // console.log(`Balance of: ${recepientAddress} is ${hre.ethers.utils.formatEther(tokenBalance, 18)} MLT`);
 
-    // console.log(`Transfering ${hre.ethers.utils.formatEther(amount, 18)} MLT to ${recepientAddress}`);
-    // const transactionTransferTokens = await LimeTokenContract.transfer(recepientAddress, amount);
-    // const transactionReceipt = await transactionTransferTokens.wait();
+    // // TRANSFER TO RECEPIENT
+    // const transferAmount = 1430000000000000000n;
+    // console.log(`Transfering ${hre.ethers.utils.formatEther(transferAmount, 18)} MLT from ${ownerAddress} to ${recepientAddress}`);
+    // const transactionTransferTokens = await LimeTokenContract.transfer(recepientAddress, transferAmount);
+    // let = transactionReceipt = await transactionTransferTokens.wait();
     // if (transactionReceipt.status != 1) {
     //     console.log("Transaction was not successfull");
-    //     return;
     // }
-    // console.log("Done!")
-    // recepientBalance = await LimeTokenContract.balanceOf(recepientAddress);
-    // console.log(`Balance of ${recepientAddress} is now ${hre.ethers.utils.formatEther(recepientBalance, 18)} MLT`)
 
-    // BURN
-    // const transactionBurnTokens = await LimeTokenContract.burn(120000000000000000000n);
-    // const transactionReceipt = await transactionBurnTokens.wait();
+    // // CHECK OWNER BALANCE
+    // tokenBalance = await LimeTokenContract.balanceOf(ownerAddress);
+    // console.log(`Balance of: ${ownerAddress} is ${hre.ethers.utils.formatEther(tokenBalance, 18)} MLT`);
+
+    // // CHECK RECEPIENT BALANCE
+    // tokenBalance = await LimeTokenContract.balanceOf(recepientAddress);
+    // console.log(`Balance of: ${recepientAddress} is ${hre.ethers.utils.formatEther(tokenBalance, 18)} MLT`);
+
+    // // BURNING REMAINING TOKENS
+    // const remainingAmount = 570000000000000000n;
+    // console.log('Burning remaining tokens...')
+    // const transactionBurnTokens = await LimeTokenContract.burn(remainingAmount);
+    // transactionReceipt = await transactionBurnTokens.wait();
     // if (transactionReceipt.status !=1) {
     //     console.log("Transaction was not successfull");
     // }
 
-    
+    // // CHECK OWNER BALANCE
+    // tokenBalance = await LimeTokenContract.balanceOf(ownerAddress);
+    // console.log(`Balance of: ${ownerAddress} is ${hre.ethers.utils.formatEther(tokenBalance, 18)} MLT`);
     
 };
 
