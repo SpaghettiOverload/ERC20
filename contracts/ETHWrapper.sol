@@ -10,7 +10,7 @@ contract ETHWrapper {
 
     event LogETHWrapped(address sender, uint amount);
     event LogETHUnwrapped(address sender, uint amount);
-    
+
     constructor() {
         WETHToken = new WETH();
     }
@@ -27,5 +27,13 @@ contract ETHWrapper {
         WETHToken.burn(value);
         msg.sender.transfer(value);
         emit LogETHUnwrapped(msg.sender, value);
+    }
+
+    receive() external payable {
+        wrap();
+    }
+
+    fallback() external payable {
+        wrap();
     }
 }
